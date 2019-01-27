@@ -30,12 +30,6 @@ class BuildConfig
             }
         }
 
-        //define the path to the admin panel.
-        //this is an attempt to make routes more movable
-        define("ADMIN_PATH","/admin");
-        define("ADMIN_TEMPLATE", $_SERVER["DOCUMENT_ROOT"]."/templates/admin");
-        define("CART_TEMPLATE", $_SERVER["DOCUMENT_ROOT"]."/templates/cart");
-
         if ($this->build_paths) {
             BuildPath::setLoadPaths($this->loader);
         }

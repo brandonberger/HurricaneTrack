@@ -1,3 +1,9 @@
+/* Regular 81d4fa 
+   Light b6ffff
+   Dark 4ba3c7
+*/
+
+
 * {
 	margin:0;
 	padding:0;
@@ -15,7 +21,7 @@ header {
 	border-top:10px solid #81d3f9;
 }
 
-/* End Header */
+/* End Header */  
 
 
 /* Fonts */
@@ -61,6 +67,11 @@ header {
 	text-decoration: none;
 }
 
-
-
 /* End Sidebar */
+
+
+/* Main Section */
+.table-container {
+	overflow: scroll;
+	height:80vh;
+}
