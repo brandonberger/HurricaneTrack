@@ -10,6 +10,7 @@ use Models\Map\HurricaneTrackTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
+use Propel\Runtime\ActiveQuery\ModelJoin;
 use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
@@ -20,6 +21,7 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  * @method     ChildHurricaneTrackQuery orderById($order = Criteria::ASC) Order by the id column
+ * @method     ChildHurricaneTrackQuery orderByHurricaneId($order = Criteria::ASC) Order by the hurricane_id column
  * @method     ChildHurricaneTrackQuery orderByDate($order = Criteria::ASC) Order by the date column
  * @method     ChildHurricaneTrackQuery orderByLatitude($order = Criteria::ASC) Order by the latitude column
  * @method     ChildHurricaneTrackQuery orderByLongitude($order = Criteria::ASC) Order by the longitude column
@@ -28,6 +30,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildHurricaneTrackQuery orderByStatus($order = Criteria::ASC) Order by the status column
  *
  * @method     ChildHurricaneTrackQuery groupById() Group by the id column
+ * @method     ChildHurricaneTrackQuery groupByHurricaneId() Group by the hurricane_id column
  * @method     ChildHurricaneTrackQuery groupByDate() Group by the date column
  * @method     ChildHurricaneTrackQuery groupByLatitude() Group by the latitude column
  * @method     ChildHurricaneTrackQuery groupByLongitude() Group by the longitude column
@@ -43,10 +46,23 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildHurricaneTrackQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
  * @method     ChildHurricaneTrackQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
  *
+ * @method     ChildHurricaneTrackQuery leftJoinHurricanes($relationAlias = null) Adds a LEFT JOIN clause to the query using the Hurricanes relation
+ * @method     ChildHurricaneTrackQuery rightJoinHurricanes($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Hurricanes relation
+ * @method     ChildHurricaneTrackQuery innerJoinHurricanes($relationAlias = null) Adds a INNER JOIN clause to the query using the Hurricanes relation
+ *
+ * @method     ChildHurricaneTrackQuery joinWithHurricanes($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the Hurricanes relation
+ *
+ * @method     ChildHurricaneTrackQuery leftJoinWithHurricanes() Adds a LEFT JOIN clause and with to the query using the Hurricanes relation
+ * @method     ChildHurricaneTrackQuery rightJoinWithHurricanes() Adds a RIGHT JOIN clause and with to the query using the Hurricanes relation
+ * @method     ChildHurricaneTrackQuery innerJoinWithHurricanes() Adds a INNER JOIN clause and with to the query using the Hurricanes relation
+ *
+ * @method     \Models\HurricanesQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ *
  * @method     ChildHurricaneTrack findOne(ConnectionInterface $con = null) Return the first ChildHurricaneTrack matching the query
  * @method     ChildHurricaneTrack findOneOrCreate(ConnectionInterface $con = null) Return the first ChildHurricaneTrack matching the query, or a new ChildHurricaneTrack object populated from the query conditions when no match is found
  *
  * @method     ChildHurricaneTrack findOneById(int $id) Return the first ChildHurricaneTrack filtered by the id column
+ * @method     ChildHurricaneTrack findOneByHurricaneId(int $hurricane_id) Return the first ChildHurricaneTrack filtered by the hurricane_id column
  * @method     ChildHurricaneTrack findOneByDate(string $date) Return the first ChildHurricaneTrack filtered by the date column
  * @method     ChildHurricaneTrack findOneByLatitude(string $latitude) Return the first ChildHurricaneTrack filtered by the latitude column
  * @method     ChildHurricaneTrack findOneByLongitude(string $longitude) Return the first ChildHurricaneTrack filtered by the longitude column
@@ -58,6 +74,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildHurricaneTrack requireOne(ConnectionInterface $con = null) Return the first ChildHurricaneTrack matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildHurricaneTrack requireOneById(int $id) Return the first ChildHurricaneTrack filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildHurricaneTrack requireOneByHurricaneId(int $hurricane_id) Return the first ChildHurricaneTrack filtered by the hurricane_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildHurricaneTrack requireOneByDate(string $date) Return the first ChildHurricaneTrack filtered by the date column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildHurricaneTrack requireOneByLatitude(string $latitude) Return the first ChildHurricaneTrack filtered by the latitude column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildHurricaneTrack requireOneByLongitude(string $longitude) Return the first ChildHurricaneTrack filtered by the longitude column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -67,6 +84,7 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     ChildHurricaneTrack[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildHurricaneTrack objects based on current ModelCriteria
  * @method     ChildHurricaneTrack[]|ObjectCollection findById(int $id) Return ChildHurricaneTrack objects filtered by the id column
+ * @method     ChildHurricaneTrack[]|ObjectCollection findByHurricaneId(int $hurricane_id) Return ChildHurricaneTrack objects filtered by the hurricane_id column
  * @method     ChildHurricaneTrack[]|ObjectCollection findByDate(string $date) Return ChildHurricaneTrack objects filtered by the date column
  * @method     ChildHurricaneTrack[]|ObjectCollection findByLatitude(string $latitude) Return ChildHurricaneTrack objects filtered by the latitude column
  * @method     ChildHurricaneTrack[]|ObjectCollection findByLongitude(string $longitude) Return ChildHurricaneTrack objects filtered by the longitude column
@@ -171,7 +189,7 @@ abstract class HurricaneTrackQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, date, latitude, longitude, pressure, max_sustained_wind, status FROM hurricane_track WHERE id = :p0';
+        $sql = 'SELECT id, hurricane_id, date, latitude, longitude, pressure, max_sustained_wind, status FROM hurricane_track WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -300,6 +318,49 @@ abstract class HurricaneTrackQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(HurricaneTrackTableMap::COL_ID, $id, $comparison);
+    }
+
+    /**
+     * Filter the query on the hurricane_id column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByHurricaneId(1234); // WHERE hurricane_id = 1234
+     * $query->filterByHurricaneId(array(12, 34)); // WHERE hurricane_id IN (12, 34)
+     * $query->filterByHurricaneId(array('min' => 12)); // WHERE hurricane_id > 12
+     * </code>
+     *
+     * @see       filterByHurricanes()
+     *
+     * @param     mixed $hurricaneId The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildHurricaneTrackQuery The current query, for fluid interface
+     */
+    public function filterByHurricaneId($hurricaneId = null, $comparison = null)
+    {
+        if (is_array($hurricaneId)) {
+            $useMinMax = false;
+            if (isset($hurricaneId['min'])) {
+                $this->addUsingAlias(HurricaneTrackTableMap::COL_HURRICANE_ID, $hurricaneId['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($hurricaneId['max'])) {
+                $this->addUsingAlias(HurricaneTrackTableMap::COL_HURRICANE_ID, $hurricaneId['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(HurricaneTrackTableMap::COL_HURRICANE_ID, $hurricaneId, $comparison);
     }
 
     /**
@@ -532,6 +593,83 @@ abstract class HurricaneTrackQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(HurricaneTrackTableMap::COL_STATUS, $status, $comparison);
+    }
+
+    /**
+     * Filter the query by a related \Models\Hurricanes object
+     *
+     * @param \Models\Hurricanes|ObjectCollection $hurricanes The related object(s) to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @throws \Propel\Runtime\Exception\PropelException
+     *
+     * @return ChildHurricaneTrackQuery The current query, for fluid interface
+     */
+    public function filterByHurricanes($hurricanes, $comparison = null)
+    {
+        if ($hurricanes instanceof \Models\Hurricanes) {
+            return $this
+                ->addUsingAlias(HurricaneTrackTableMap::COL_HURRICANE_ID, $hurricanes->getId(), $comparison);
+        } elseif ($hurricanes instanceof ObjectCollection) {
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+
+            return $this
+                ->addUsingAlias(HurricaneTrackTableMap::COL_HURRICANE_ID, $hurricanes->toKeyValue('PrimaryKey', 'Id'), $comparison);
+        } else {
+            throw new PropelException('filterByHurricanes() only accepts arguments of type \Models\Hurricanes or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the Hurricanes relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildHurricaneTrackQuery The current query, for fluid interface
+     */
+    public function joinHurricanes($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('Hurricanes');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'Hurricanes');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the Hurricanes relation Hurricanes object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \Models\HurricanesQuery A secondary query class using the current class as primary query
+     */
+    public function useHurricanesQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        return $this
+            ->joinHurricanes($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Hurricanes', '\Models\HurricanesQuery');
     }
 
     /**

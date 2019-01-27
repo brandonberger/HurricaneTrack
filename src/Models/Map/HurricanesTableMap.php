@@ -2,8 +2,8 @@
 
 namespace Models\Map;
 
-use Models\HurricaneTrack;
-use Models\HurricaneTrackQuery;
+use Models\Hurricanes;
+use Models\HurricanesQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -16,7 +16,7 @@ use Propel\Runtime\Map\TableMapTrait;
 
 
 /**
- * This class defines the structure of the 'hurricane_track' table.
+ * This class defines the structure of the 'hurricanes' table.
  *
  *
  *
@@ -26,7 +26,7 @@ use Propel\Runtime\Map\TableMapTrait;
  * (i.e. if it's a text column type).
  *
  */
-class HurricaneTrackTableMap extends TableMap
+class HurricanesTableMap extends TableMap
 {
     use InstancePoolTrait;
     use TableMapTrait;
@@ -34,7 +34,7 @@ class HurricaneTrackTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = 'Models.Map.HurricaneTrackTableMap';
+    const CLASS_NAME = 'Models.Map.HurricanesTableMap';
 
     /**
      * The default database name for this class
@@ -44,22 +44,22 @@ class HurricaneTrackTableMap extends TableMap
     /**
      * The table name for this class
      */
-    const TABLE_NAME = 'hurricane_track';
+    const TABLE_NAME = 'hurricanes';
 
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\Models\\HurricaneTrack';
+    const OM_CLASS = '\\Models\\Hurricanes';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'Models.HurricaneTrack';
+    const CLASS_DEFAULT = 'Models.Hurricanes';
 
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 8;
+    const NUM_COLUMNS = 2;
 
     /**
      * The number of lazy-loaded columns
@@ -69,47 +69,17 @@ class HurricaneTrackTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 8;
+    const NUM_HYDRATE_COLUMNS = 2;
 
     /**
      * the column name for the id field
      */
-    const COL_ID = 'hurricane_track.id';
+    const COL_ID = 'hurricanes.id';
 
     /**
-     * the column name for the hurricane_id field
+     * the column name for the name field
      */
-    const COL_HURRICANE_ID = 'hurricane_track.hurricane_id';
-
-    /**
-     * the column name for the date field
-     */
-    const COL_DATE = 'hurricane_track.date';
-
-    /**
-     * the column name for the latitude field
-     */
-    const COL_LATITUDE = 'hurricane_track.latitude';
-
-    /**
-     * the column name for the longitude field
-     */
-    const COL_LONGITUDE = 'hurricane_track.longitude';
-
-    /**
-     * the column name for the pressure field
-     */
-    const COL_PRESSURE = 'hurricane_track.pressure';
-
-    /**
-     * the column name for the max_sustained_wind field
-     */
-    const COL_MAX_SUSTAINED_WIND = 'hurricane_track.max_sustained_wind';
-
-    /**
-     * the column name for the status field
-     */
-    const COL_STATUS = 'hurricane_track.status';
+    const COL_NAME = 'hurricanes.name';
 
     /**
      * The default string format for model objects of the related table
@@ -123,11 +93,11 @@ class HurricaneTrackTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'HurricaneId', 'Date', 'Latitude', 'Longitude', 'Pressure', 'MaxSustainedWind', 'Status', ),
-        self::TYPE_CAMELNAME     => array('id', 'hurricaneId', 'date', 'latitude', 'longitude', 'pressure', 'maxSustainedWind', 'status', ),
-        self::TYPE_COLNAME       => array(HurricaneTrackTableMap::COL_ID, HurricaneTrackTableMap::COL_HURRICANE_ID, HurricaneTrackTableMap::COL_DATE, HurricaneTrackTableMap::COL_LATITUDE, HurricaneTrackTableMap::COL_LONGITUDE, HurricaneTrackTableMap::COL_PRESSURE, HurricaneTrackTableMap::COL_MAX_SUSTAINED_WIND, HurricaneTrackTableMap::COL_STATUS, ),
-        self::TYPE_FIELDNAME     => array('id', 'hurricane_id', 'date', 'latitude', 'longitude', 'pressure', 'max_sustained_wind', 'status', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
+        self::TYPE_PHPNAME       => array('Id', 'Name', ),
+        self::TYPE_CAMELNAME     => array('id', 'name', ),
+        self::TYPE_COLNAME       => array(HurricanesTableMap::COL_ID, HurricanesTableMap::COL_NAME, ),
+        self::TYPE_FIELDNAME     => array('id', 'name', ),
+        self::TYPE_NUM           => array(0, 1, )
     );
 
     /**
@@ -137,11 +107,11 @@ class HurricaneTrackTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'HurricaneId' => 1, 'Date' => 2, 'Latitude' => 3, 'Longitude' => 4, 'Pressure' => 5, 'MaxSustainedWind' => 6, 'Status' => 7, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'hurricaneId' => 1, 'date' => 2, 'latitude' => 3, 'longitude' => 4, 'pressure' => 5, 'maxSustainedWind' => 6, 'status' => 7, ),
-        self::TYPE_COLNAME       => array(HurricaneTrackTableMap::COL_ID => 0, HurricaneTrackTableMap::COL_HURRICANE_ID => 1, HurricaneTrackTableMap::COL_DATE => 2, HurricaneTrackTableMap::COL_LATITUDE => 3, HurricaneTrackTableMap::COL_LONGITUDE => 4, HurricaneTrackTableMap::COL_PRESSURE => 5, HurricaneTrackTableMap::COL_MAX_SUSTAINED_WIND => 6, HurricaneTrackTableMap::COL_STATUS => 7, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'hurricane_id' => 1, 'date' => 2, 'latitude' => 3, 'longitude' => 4, 'pressure' => 5, 'max_sustained_wind' => 6, 'status' => 7, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Name' => 1, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'name' => 1, ),
+        self::TYPE_COLNAME       => array(HurricanesTableMap::COL_ID => 0, HurricanesTableMap::COL_NAME => 1, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'name' => 1, ),
+        self::TYPE_NUM           => array(0, 1, )
     );
 
     /**
@@ -154,21 +124,15 @@ class HurricaneTrackTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('hurricane_track');
-        $this->setPhpName('HurricaneTrack');
+        $this->setName('hurricanes');
+        $this->setPhpName('Hurricanes');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\Models\\HurricaneTrack');
+        $this->setClassName('\\Models\\Hurricanes');
         $this->setPackage('Models');
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
-        $this->addForeignKey('hurricane_id', 'HurricaneId', 'INTEGER', 'hurricanes', 'id', true, null, null);
-        $this->addColumn('date', 'Date', 'TIMESTAMP', false, null, null);
-        $this->addColumn('latitude', 'Latitude', 'DECIMAL', false, 5, null);
-        $this->addColumn('longitude', 'Longitude', 'DECIMAL', false, 5, null);
-        $this->addColumn('pressure', 'Pressure', 'INTEGER', false, null, null);
-        $this->addColumn('max_sustained_wind', 'MaxSustainedWind', 'INTEGER', false, null, null);
-        $this->addColumn('status', 'Status', 'VARCHAR', false, 100, null);
+        $this->addColumn('name', 'Name', 'VARCHAR', false, 30, null);
     } // initialize()
 
     /**
@@ -176,13 +140,13 @@ class HurricaneTrackTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Hurricanes', '\\Models\\Hurricanes', RelationMap::MANY_TO_ONE, array (
+        $this->addRelation('HurricaneTrack', '\\Models\\HurricaneTrack', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
     0 => ':hurricane_id',
     1 => ':id',
   ),
-), null, null, null, false);
+), null, null, 'HurricaneTracks', false);
     } // buildRelations()
 
     /**
@@ -242,7 +206,7 @@ class HurricaneTrackTableMap extends TableMap
      */
     public static function getOMClass($withPrefix = true)
     {
-        return $withPrefix ? HurricaneTrackTableMap::CLASS_DEFAULT : HurricaneTrackTableMap::OM_CLASS;
+        return $withPrefix ? HurricanesTableMap::CLASS_DEFAULT : HurricanesTableMap::OM_CLASS;
     }
 
     /**
@@ -256,22 +220,22 @@ class HurricaneTrackTableMap extends TableMap
      *
      * @throws PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
-     * @return array           (HurricaneTrack object, last column rank)
+     * @return array           (Hurricanes object, last column rank)
      */
     public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        $key = HurricaneTrackTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
-        if (null !== ($obj = HurricaneTrackTableMap::getInstanceFromPool($key))) {
+        $key = HurricanesTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
+        if (null !== ($obj = HurricanesTableMap::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $offset, true); // rehydrate
-            $col = $offset + HurricaneTrackTableMap::NUM_HYDRATE_COLUMNS;
+            $col = $offset + HurricanesTableMap::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = HurricaneTrackTableMap::OM_CLASS;
-            /** @var HurricaneTrack $obj */
+            $cls = HurricanesTableMap::OM_CLASS;
+            /** @var Hurricanes $obj */
             $obj = new $cls();
             $col = $obj->hydrate($row, $offset, false, $indexType);
-            HurricaneTrackTableMap::addInstanceToPool($obj, $key);
+            HurricanesTableMap::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
@@ -294,18 +258,18 @@ class HurricaneTrackTableMap extends TableMap
         $cls = static::getOMClass(false);
         // populate the object(s)
         while ($row = $dataFetcher->fetch()) {
-            $key = HurricaneTrackTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
-            if (null !== ($obj = HurricaneTrackTableMap::getInstanceFromPool($key))) {
+            $key = HurricanesTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
+            if (null !== ($obj = HurricanesTableMap::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
                 $results[] = $obj;
             } else {
-                /** @var HurricaneTrack $obj */
+                /** @var Hurricanes $obj */
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                HurricaneTrackTableMap::addInstanceToPool($obj, $key);
+                HurricanesTableMap::addInstanceToPool($obj, $key);
             } // if key exists
         }
 
@@ -326,23 +290,11 @@ class HurricaneTrackTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(HurricaneTrackTableMap::COL_ID);
-            $criteria->addSelectColumn(HurricaneTrackTableMap::COL_HURRICANE_ID);
-            $criteria->addSelectColumn(HurricaneTrackTableMap::COL_DATE);
-            $criteria->addSelectColumn(HurricaneTrackTableMap::COL_LATITUDE);
-            $criteria->addSelectColumn(HurricaneTrackTableMap::COL_LONGITUDE);
-            $criteria->addSelectColumn(HurricaneTrackTableMap::COL_PRESSURE);
-            $criteria->addSelectColumn(HurricaneTrackTableMap::COL_MAX_SUSTAINED_WIND);
-            $criteria->addSelectColumn(HurricaneTrackTableMap::COL_STATUS);
+            $criteria->addSelectColumn(HurricanesTableMap::COL_ID);
+            $criteria->addSelectColumn(HurricanesTableMap::COL_NAME);
         } else {
             $criteria->addSelectColumn($alias . '.id');
-            $criteria->addSelectColumn($alias . '.hurricane_id');
-            $criteria->addSelectColumn($alias . '.date');
-            $criteria->addSelectColumn($alias . '.latitude');
-            $criteria->addSelectColumn($alias . '.longitude');
-            $criteria->addSelectColumn($alias . '.pressure');
-            $criteria->addSelectColumn($alias . '.max_sustained_wind');
-            $criteria->addSelectColumn($alias . '.status');
+            $criteria->addSelectColumn($alias . '.name');
         }
     }
 
@@ -355,7 +307,7 @@ class HurricaneTrackTableMap extends TableMap
      */
     public static function getTableMap()
     {
-        return Propel::getServiceContainer()->getDatabaseMap(HurricaneTrackTableMap::DATABASE_NAME)->getTable(HurricaneTrackTableMap::TABLE_NAME);
+        return Propel::getServiceContainer()->getDatabaseMap(HurricanesTableMap::DATABASE_NAME)->getTable(HurricanesTableMap::TABLE_NAME);
     }
 
     /**
@@ -363,16 +315,16 @@ class HurricaneTrackTableMap extends TableMap
      */
     public static function buildTableMap()
     {
-        $dbMap = Propel::getServiceContainer()->getDatabaseMap(HurricaneTrackTableMap::DATABASE_NAME);
-        if (!$dbMap->hasTable(HurricaneTrackTableMap::TABLE_NAME)) {
-            $dbMap->addTableObject(new HurricaneTrackTableMap());
+        $dbMap = Propel::getServiceContainer()->getDatabaseMap(HurricanesTableMap::DATABASE_NAME);
+        if (!$dbMap->hasTable(HurricanesTableMap::TABLE_NAME)) {
+            $dbMap->addTableObject(new HurricanesTableMap());
         }
     }
 
     /**
-     * Performs a DELETE on the database, given a HurricaneTrack or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a Hurricanes or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or HurricaneTrack object or primary key or array of primary keys
+     * @param mixed               $values Criteria or Hurricanes object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param  ConnectionInterface $con the connection to use
      * @return int             The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -383,27 +335,27 @@ class HurricaneTrackTableMap extends TableMap
      public static function doDelete($values, ConnectionInterface $con = null)
      {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(HurricaneTrackTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(HurricanesTableMap::DATABASE_NAME);
         }
 
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \Models\HurricaneTrack) { // it's a model object
+        } elseif ($values instanceof \Models\Hurricanes) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(HurricaneTrackTableMap::DATABASE_NAME);
-            $criteria->add(HurricaneTrackTableMap::COL_ID, (array) $values, Criteria::IN);
+            $criteria = new Criteria(HurricanesTableMap::DATABASE_NAME);
+            $criteria->add(HurricanesTableMap::COL_ID, (array) $values, Criteria::IN);
         }
 
-        $query = HurricaneTrackQuery::create()->mergeWith($criteria);
+        $query = HurricanesQuery::create()->mergeWith($criteria);
 
         if ($values instanceof Criteria) {
-            HurricaneTrackTableMap::clearInstancePool();
+            HurricanesTableMap::clearInstancePool();
         } elseif (!is_object($values)) { // it's a primary key, or an array of pks
             foreach ((array) $values as $singleval) {
-                HurricaneTrackTableMap::removeInstanceFromPool($singleval);
+                HurricanesTableMap::removeInstanceFromPool($singleval);
             }
         }
 
@@ -411,20 +363,20 @@ class HurricaneTrackTableMap extends TableMap
     }
 
     /**
-     * Deletes all rows from the hurricane_track table.
+     * Deletes all rows from the hurricanes table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
     public static function doDeleteAll(ConnectionInterface $con = null)
     {
-        return HurricaneTrackQuery::create()->doDeleteAll($con);
+        return HurricanesQuery::create()->doDeleteAll($con);
     }
 
     /**
-     * Performs an INSERT on the database, given a HurricaneTrack or Criteria object.
+     * Performs an INSERT on the database, given a Hurricanes or Criteria object.
      *
-     * @param mixed               $criteria Criteria or HurricaneTrack object containing data that is used to create the INSERT statement.
+     * @param mixed               $criteria Criteria or Hurricanes object containing data that is used to create the INSERT statement.
      * @param ConnectionInterface $con the ConnectionInterface connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -433,22 +385,22 @@ class HurricaneTrackTableMap extends TableMap
     public static function doInsert($criteria, ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(HurricaneTrackTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(HurricanesTableMap::DATABASE_NAME);
         }
 
         if ($criteria instanceof Criteria) {
             $criteria = clone $criteria; // rename for clarity
         } else {
-            $criteria = $criteria->buildCriteria(); // build Criteria from HurricaneTrack object
+            $criteria = $criteria->buildCriteria(); // build Criteria from Hurricanes object
         }
 
-        if ($criteria->containsKey(HurricaneTrackTableMap::COL_ID) && $criteria->keyContainsValue(HurricaneTrackTableMap::COL_ID) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.HurricaneTrackTableMap::COL_ID.')');
+        if ($criteria->containsKey(HurricanesTableMap::COL_ID) && $criteria->keyContainsValue(HurricanesTableMap::COL_ID) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.HurricanesTableMap::COL_ID.')');
         }
 
 
         // Set the correct dbName
-        $query = HurricaneTrackQuery::create()->mergeWith($criteria);
+        $query = HurricanesQuery::create()->mergeWith($criteria);
 
         // use transaction because $criteria could contain info
         // for more than one table (I guess, conceivably)
@@ -457,7 +409,7 @@ class HurricaneTrackTableMap extends TableMap
         });
     }
 
-} // HurricaneTrackTableMap
+} // HurricanesTableMap
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-HurricaneTrackTableMap::buildTableMap();
+HurricanesTableMap::buildTableMap();

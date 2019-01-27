@@ -11,10 +11,10 @@ return [
     'propel' => [
         'paths' => [
             // The directory where Propel expects to find your `schema.xml` file.
-            'schemaDir' => '/var/www/html/site/irma/schemata/',
+            'schemaDir' => '/var/www/html/site/schemata/',
 
             // The directory where Propel should output generated object model classes.
-            'phpDir' => '/var/www/html/site/irma/src',
+            'phpDir' => '/var/www/html/site/src',
         ],
         /*
         'database' => [
