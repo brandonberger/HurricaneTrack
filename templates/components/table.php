@@ -21,7 +21,6 @@
 	} 
 
 	foreach ($this->track as $t) { 
-		$t->setHurricaneState();
 ?>
 	<tr>
 		<td><?=$t->getDate('M jS Y h:i A')?></td>
@@ -29,7 +28,7 @@
 		<td><?=$t->getLongitude()?>&deg;N</td>
 		<td><?=$t->getPressure()?> mbar</td>
 		<td><?=$t->getMaxSustainedWind()?> MPH</td>
-		<td><?=ucwords($t->state)?></td>
+		<td><?=ucwords($t->getState())?></td>
 	</tr>
 <?php } ?>
 </table>
